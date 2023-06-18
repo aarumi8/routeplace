@@ -64,8 +64,8 @@ export default {
       loading: true,
     }
   },
-  created() {
-    this.loadCollections()
+  async created() {
+    await this.loadCollections()
   },
   methods: {
     async loadCollections() {

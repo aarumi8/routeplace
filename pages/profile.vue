@@ -27,45 +27,17 @@
       <div class="u-align-left u-clearfix u-sheet u-sheet-1">
         <div class="u-expanded-width u-list u-list-1">
           <div class="u-repeater u-repeater-1">
-            <div class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round">
+            <div v-for="item in nfts" :key="item.nftName" class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round">
+              <a :href="'/collection/'+ item.collectionAddress + '/' + item.id">
               <div class="u-container-layout u-similar-container u-container-layout-1">
                 <img class="u-expanded-width u-image u-image-round u-radius-10 u-image-1" src="images/Screenshot2023-06-16at11.36.40PM.png" alt="" data-image-width="984" data-image-height="964">
-                <p class="u-custom-font u-font-ubuntu u-text u-text-1">Azuki #5467</p>
+                <p class="u-custom-font u-font-ubuntu u-text u-text-1">{{item.nftName}}</p>
                 <p class="u-custom-font u-font-ubuntu u-text u-text-2">
-                  <span class="u-text-grey-40">Price: <span class="u-text-white" style="font-weight: 700;">$192</span>
+                  <span class="u-text-grey-40">Price: <span class="u-text-white" style="font-weight: 700;">{{item.price}}</span>
                   </span>
                 </p>
               </div>
-            </div>
-            <div class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round">
-              <div class="u-container-layout u-similar-container u-container-layout-2">
-                <img class="u-expanded-width u-image u-image-round u-radius-10 u-image-2" src="images/Screenshot2023-06-16at11.36.40PM.png" alt="" data-image-width="984" data-image-height="964">
-                <p class="u-custom-font u-font-ubuntu u-text u-text-3"> Azuki #5467</p>
-                <p class="u-custom-font u-font-ubuntu u-text u-text-4">
-                  <span class="u-text-grey-40"> Price: <span style="font-weight: 700;" class="u-text-white">$192</span>
-                  </span>
-                </p>
-              </div>
-            </div>
-            <div class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round">
-              <div class="u-container-layout u-similar-container u-container-layout-3">
-                <img class="u-expanded-width u-image u-image-round u-radius-10 u-image-3" src="images/Screenshot2023-06-16at11.36.40PM.png" alt="" data-image-width="984" data-image-height="964">
-                <p class="u-custom-font u-font-ubuntu u-text u-text-5"> Azuki #5467</p>
-                <p class="u-custom-font u-font-ubuntu u-text u-text-6">
-                  <span class="u-text-grey-40"> Price: <span style="font-weight: 700;" class="u-text-white">$192</span>
-                  </span>
-                </p>
-              </div>
-            </div>
-            <div class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round">
-              <div class="u-container-layout u-similar-container u-container-layout-4">
-                <img class="u-expanded-width u-image u-image-round u-radius-10 u-image-4" src="images/Screenshot2023-06-16at11.36.40PM.png" alt="" data-image-width="984" data-image-height="964">
-                <p class="u-custom-font u-font-ubuntu u-text u-text-7"> Azuki #5467</p>
-                <p class="u-custom-font u-font-ubuntu u-text u-text-8">
-                  <span class="u-text-grey-40"> Price: <span style="font-weight: 700;" class="u-text-white">$192</span>
-                  </span>
-                </p>
-              </div>
+              </a>
             </div>
           </div>
         </div>
@@ -78,7 +50,29 @@
 
 <script>
 export default {
-  name: 'Profile'
+  name: 'Profile',
+  data() {
+    return {
+      nfts: [],
+      loading: true
+    }
+  },
+  async created() {
+    await this.loadNfts()
+  },
+  methods: {
+    async loadNfts() {
+      this.nfts = [
+        {'nftName': 'Azuki#23', 'price': '$191', 'collectionAddress': '0x20', 'id': '23'},
+        {'nftName': 'Azuki#23', 'price': '$391', 'collectionAddress': '0x20', 'id': '23'},
+        {'nftName': 'Azuki#23', 'price': '$591', 'collectionAddress': '0x20', 'id': '23'},
+        {'nftName': 'Azuki#23', 'price': '$91', 'collectionAddress': '0x20', 'id': '23'},
+
+        {'nftName': 'Azuki#23', 'price': '$9691', 'collectionAddress': '0x20', 'id': '23'},
+      ]
+      this.loading = false
+    }
+  }
 }
 </script>
 

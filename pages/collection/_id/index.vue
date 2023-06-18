@@ -86,7 +86,12 @@
 
 <script>
 export default {
-  name: 'Collection'
+  name: 'Collection',
+  data() {
+    return {
+      collection: []
+    }
+  },
 }
 </script>
 
