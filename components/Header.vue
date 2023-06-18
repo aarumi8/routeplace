@@ -1,7 +1,7 @@
 <template>
     <body class="u-body">
         <header class="u-clearfix u-custom-color-7 u-header u-header" id="sec-d964"><div class="u-clearfix u-sheet u-sheet-1">
-            <a href="https://nicepage.com/c/blog-posts-website-mockup" class="u-border-2 u-border-custom-color-3 u-border-hover-palette-2-light-1 u-btn u-btn-round u-button-style u-custom-font u-font-ubuntu u-none u-radius-10 u-text-custom-color-3 u-text-hover-palette-2-light-1 u-btn-1">CONNECT</a>
+            <a @click='connectWalletBtn' class="u-border-2 u-border-custom-color-3 u-border-hover-palette-2-light-1 u-btn u-btn-round u-button-style u-custom-font u-font-ubuntu u-none u-radius-10 u-text-custom-color-3 u-text-hover-palette-2-light-1 u-btn-1">{{this.btnLabel}}</a>
             <p class="u-custom-font u-font-ubuntu u-text u-text-custom-color-3 u-text-1">
             <a href='/'><span class="u-text-white">Route</span>Place</a>
             </p>
@@ -20,8 +20,75 @@
 </template>
 
 <script>
+import Web3 from 'web3';
+
 export default {
-  name: 'Header'
+  name: 'Header',
+  data() {
+    return {
+      web3: null,
+      btnLabel: 'CONNECT'
+    }
+  },
+  created() {
+    try {
+      if(window.ethereum.selectedAddress) {
+        this.btnLabel = 'PROFILE'
+      } else {
+        this.btnLabel = 'CONNECT'
+      }
+    } catch (err) {
+      console.log(err)
+      this.btnLabel = 'CONNECT'
+    }
+  },
+  methods: {
+    async connectWalletBtn() {
+      try {
+        if(window.ethereum.selectedAddress) {
+          window.location.href='/profile'
+        } else {
+          if(await this.connectWallet()) {
+            this.btnLabel = 'PROFILE'
+          }
+        }
+      } catch (err) {
+        alert('No walelt detected. Please, install MetaMask')
+        console.log(err)
+      }
+    },
+    async connectWallet() {
+        if(window.ethereum) {
+            try {
+                // Request account access
+                // We don't know window.web3 version, so we use our own instance of Web3
+                // with the injected provider given by MetaMask
+                await window.ethereum.enable();
+                this.web3 = new Web3(window.ethereum);
+                console.log(window.ethereum.selectedAddress)
+                return true
+            } catch (error) {
+                // User denied account access...
+                console.error("User denied account access")
+                //alert('Error! You denied account access')
+            }
+        }
+        // Legacy dapp browsers...
+        else if (window.web3) {
+            this.web3 = new Web3(window.web3.currentProvider);
+            // Acccounts always exposed
+            console.log(`Connected with the account: ${window.web3.currentProvider.selectedAddress}`);
+            return true
+        }
+        // Non-dapp browsers...
+        else {
+            console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+            alert('No wallet detected. Please, install MetaMask')
+        }
+
+        return false
+      },
+  }
 }
 </script>
 

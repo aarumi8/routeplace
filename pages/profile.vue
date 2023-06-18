@@ -11,7 +11,7 @@
             <div class="u-container-style u-group u-group-2">
               <div class="u-container-layout">
                 <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-2">Address</p>
-                <p class="u-custom-font u-font-ubuntu u-text u-text-3">0x000000</p>
+                <p class="u-custom-font u-font-ubuntu u-text u-text-3">{{this.address}}</p>
               </div>
             </div>
           </div>
@@ -49,15 +49,21 @@
 </template>
 
 <script>
+import Web3 from 'web3';
+
 export default {
   name: 'Profile',
   data() {
     return {
       nfts: [],
-      loading: true
+      address: 'Please, connect your MetaMask',
+      loading: true,
+      web3: null
     }
   },
   async created() {
+    if( ! await this.connectWallet() ) return
+    this.address = window.ethereum.selectedAddress
     await this.loadNfts()
   },
   methods: {
@@ -71,7 +77,39 @@ export default {
         {'nftName': 'Azuki#23', 'price': '$9691', 'collectionAddress': '0x20', 'id': '23'},
       ]
       this.loading = false
-    }
+    },
+    async connectWallet() {
+      if(window.ethereum) {
+          try {
+              // Request account access
+              // We don't know window.web3 version, so we use our own instance of Web3
+              // with the injected provider given by MetaMask
+              await window.ethereum.enable();
+              this.web3 = new Web3(window.ethereum);
+              console.log(window.ethereum.selectedAddress)
+              return true
+          } catch (error) {
+              // User denied account access...
+              console.error("User denied account access")
+              //alert('Error! You denied account access')
+          }
+      }
+      // Legacy dapp browsers...
+      else if (window.web3) {
+          this.web3 = new Web3(window.web3.currentProvider);
+          // Acccounts always exposed
+          console.log(`Connected with the account: ${window.web3.currentProvider.selectedAddress}`);
+          return true
+      }
+      // Non-dapp browsers...
+      else {
+          console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+          alert('No wallet detected. Please, install MetaMask')
+      }
+
+      return false
+  },
+
   }
 }
 </script>
