@@ -20,64 +20,31 @@
           <p class="u-custom-font u-font-ubuntu u-text u-text-1">Trending Collections</p>
         </div>
       </section>
+
       <section class="u-clearfix u-custom-color-7 u-section-3" id="sec-65f8">
-        <div class="u-align-left u-clearfix u-sheet u-sheet-1">
+        <div id='collectionsRow' class="u-align-left u-clearfix u-sheet u-sheet-1">
           <div class="u-expanded-width u-list u-list-1">
             <div class="u-repeater u-repeater-1">
-              <div class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round u-list-item-1" data-href="https://nicepage.com">
-                <div class="u-container-layout u-similar-container u-valign-bottom u-container-layout-1">
-                  <img class="u-expanded-width u-image u-image-round u-radius-10 u-image-1" src="images/Screenshot2023-06-16at5.06.13PM.png" alt="" data-image-width="954" data-image-height="944">
-                  <p class="u-custom-font u-font-ubuntu u-text u-text-1">Bored Ape Yach Club</p>
-                  <div class="u-container-style u-group u-group-1">
-                    <div class="u-container-layout">
-                      <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-2">Flo​or</p>
-                      <p class="u-custom-font u-font-ubuntu u-text u-text-3">$191</p>
+                <div v-for="item in collections" :key="item.collectionName" id='item' class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round u-list-item-1">
+                  <a :href="'/collection/'+ item.address">
+                  <div class="u-container-layout u-similar-container u-valign-bottom u-container-layout-1">
+                    <img class="u-expanded-width u-image u-image-round u-radius-10 u-image-1" src="images/Screenshot2023-06-16at5.06.13PM.png" alt="" data-image-width="954" data-image-height="944">
+                    <p class="u-custom-font u-font-ubuntu u-text u-text-1">{{item.collectionName}}</p>
+                    <div class="u-container-style u-group u-group-1">
+                      <div class="u-container-layout">
+                        <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-2">Flo​or</p>
+                        <p class="u-custom-font u-font-ubuntu u-text u-text-3">{{item.Floor}}</p>
+                      </div>
+                    </div>
+                    <div class="u-align-left u-container-style u-group u-group-2">
+                      <div class="u-container-layout">
+                        <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-4">Volume</p>
+                        <p class="u-custom-font u-font-ubuntu u-text u-text-5">{{item.Volume}}</p>
+                      </div> 
                     </div>
                   </div>
-                  <div class="u-align-left u-container-style u-group u-group-2">
-                    <div class="u-container-layout">
-                      <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-4">Volume</p>
-                      <p class="u-custom-font u-font-ubuntu u-text u-text-5">$32,151</p>
-                    </div>
-                  </div>
+                  </a>
                 </div>
-              </div>
-              <div class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round u-list-item-2" data-href="https://nicepage.com">
-                <div class="u-container-layout u-similar-container u-valign-bottom u-container-layout-4">
-                  <img class="u-expanded-width u-image u-image-round u-radius-10 u-image-2" src="images/Screenshot2023-06-16at11.36.04PM.png" alt="" data-image-width="892" data-image-height="882">
-                  <p class="u-custom-font u-font-ubuntu u-text u-text-6">Route Punks</p>
-                  <div class="u-container-style u-group u-group-3">
-                    <div class="u-container-layout">
-                      <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-7">Flo​or</p>
-                      <p class="u-custom-font u-font-ubuntu u-text u-text-8">$191</p>
-                    </div>
-                  </div>
-                  <div class="u-align-left u-container-style u-group u-group-4">
-                    <div class="u-container-layout">
-                      <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-9">Volume</p>
-                      <p class="u-custom-font u-font-ubuntu u-text u-text-10">$32,151</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round u-list-item-3" data-href="https://nicepage.com">
-                <div class="u-container-layout u-similar-container u-valign-bottom u-container-layout-7">
-                  <img class="u-expanded-width u-image u-image-round u-radius-10 u-image-3" src="images/Screenshot2023-06-16at11.36.40PM.png" alt="" data-image-width="984" data-image-height="964">
-                  <p class="u-custom-font u-font-ubuntu u-text u-text-11">Azuki</p>
-                  <div class="u-container-style u-group u-group-5">
-                    <div class="u-container-layout">
-                      <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-12">Flo​or</p>
-                      <p class="u-custom-font u-font-ubuntu u-text u-text-13">$191</p>
-                    </div>
-                  </div>
-                  <div class="u-align-left u-container-style u-group u-group-6">
-                    <div class="u-container-layout">
-                      <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-14">Volume</p>
-                      <p class="u-custom-font u-font-ubuntu u-text u-text-15">$32,151</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -92,27 +59,29 @@ export default {
   name: 'IndexPage',
   data() {
     return {
-      amountOfCollections: 0,
+      amountOfCollectionsRows: 0,
       collections: [],
       loading: true,
     }
   },
   created() {
-
+    this.loadCollections()
   },
   methods: {
     async loadCollections() {
       //var response = await axios.post("http://3.106.130.141/store_state", jsonBody)
-      this.amountOfCollections = 6
       this.collections = [
-        {'collectionName': 'BAYC', 'Floor': '$292', 'Volume': '$29,322'},
-        {'collectionName': 'BAYC2', 'Floor': '$292', 'Volume': '$29,322'},
-        {'collectionName': 'BAYC3', 'Floor': '$292', 'Volume': '$29,322'},
+        {'collectionName': 'BAYC', 'Floor': '$292', 'Volume': '$29,322', 'address': '0x20'},
+        {'collectionName': 'BAYC2', 'Floor': '$22', 'Volume': '$19,322', 'address': '0x20'},
+        {'collectionName': 'BAYC3', 'Floor': '$392', 'Volume': '$29,322', 'address': '0x20'},
 
-        {'collectionName': 'BAYC4', 'Floor': '$292', 'Volume': '$29,322'},
-        {'collectionName': 'BAYC5', 'Floor': '$292', 'Volume': '$29,322'},
-        {'collectionName': 'BAYC6', 'Floor': '$292', 'Volume': '$29,322'},
-      ]
+        {'collectionName': 'BAYC4', 'Floor': '$092', 'Volume': '$29,322', 'address': '0x20'},
+        {'collectionName': 'BAYC5', 'Floor': '$492', 'Volume': '$2,322', 'address': '0x20'},
+        {'collectionName': 'BAYC5', 'Floor': '$492', 'Volume': '$2,322', 'address': '0x20'},
+
+        {'collectionName': 'BAYC6', 'Floor': '$492', 'Volume': '$2,322', 'address': '0x20'},
+
+      ] 
       this.loading = false
     }
   }
