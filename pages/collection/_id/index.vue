@@ -7,24 +7,24 @@
         <div class="u-border-1 u-border-grey-80 u-container-style u-expanded-width u-group u-radius-10 u-shape-round u-group-1">
           <div class="u-container-layout u-container-layout-1">
             <img class="u-image u-image-round u-radius-10 u-image-1" src="../../../static/images/Screenshot2023-06-16at11.36.40PM.png" alt="" data-image-width="984" data-image-height="964">
-            <p class="u-custom-font u-font-ubuntu u-text u-text-1">Azuki </p>
-            <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-2"> A community-driven collectibles project featuring art by Burnt Toast. Doodles come in a joyful range of colors, traits and sizes with a collection size of 10,000. Each Doodle allows its owner to vote for experiences and activations paid for by the Doodles Community Treasury.</p>
+            <p class="u-custom-font u-font-ubuntu u-text u-text-1">{{collection.collectionName}}</p>
+            <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-2"> {{collection.desc}}</p>
             <div class="u-container-style u-group u-group-2">
               <div class="u-container-layout">
                 <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-3">Flo​or</p>
-                <p class="u-custom-font u-font-ubuntu u-text u-text-4">$217</p>
+                <p class="u-custom-font u-font-ubuntu u-text u-text-4">{{collection.floor}}</p>
               </div>
             </div>
             <div class="u-container-style u-group u-group-3">
               <div class="u-container-layout">
                 <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-5">Volume</p>
-                <p class="u-custom-font u-font-ubuntu u-text u-text-6">$51,327</p>
+                <p class="u-custom-font u-font-ubuntu u-text u-text-6">{{collection.volume}}</p>
               </div>
             </div>
             <div class="u-container-style u-group u-group-4">
               <div class="u-container-layout">
                 <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-7">Items</p>
-                <p class="u-custom-font u-font-ubuntu u-text u-text-8">10,000</p>
+                <p class="u-custom-font u-font-ubuntu u-text u-text-8">{{collection.items}}</p>
               </div>
             </div>
           </div>
@@ -35,46 +35,21 @@
       <div class="u-align-left u-clearfix u-sheet u-sheet-1">
         <div class="u-expanded-width u-list u-list-1">
           <div class="u-repeater u-repeater-1">
-            <div class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round">
+            <div v-for="item in nfts" :key="item.nftName" class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round">
+              <a :href="'/collection/'+ item.collectionAddress + '/' + item.id">
               <div class="u-container-layout u-similar-container u-container-layout-1">
                 <img class="u-expanded-width u-image u-image-round u-radius-10 u-image-1" src="../../../static/images/Screenshot2023-06-16at11.36.40PM.png" alt="" data-image-width="984" data-image-height="964">
-                <p class="u-custom-font u-font-ubuntu u-text u-text-1">Azuki #5467</p>
+                <p class="u-custom-font u-font-ubuntu u-text u-text-1">{{item.nftName}}</p>
                 <p class="u-custom-font u-font-ubuntu u-text u-text-2">
-                  <span class="u-text-grey-40">Price: <span class="u-text-white" style="font-weight: 700;">$192</span>
+                  <span class="u-text-grey-40">Price: <span class="u-text-white" style="font-weight: 700;">{{item.price}}</span>
                   </span>
                 </p>
               </div>
+              </a>
             </div>
-            <div class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round">
-              <div class="u-container-layout u-similar-container u-container-layout-2">
-                <img class="u-expanded-width u-image u-image-round u-radius-10 u-image-2" src="../../../static/images/Screenshot2023-06-16at11.36.40PM.png" alt="" data-image-width="984" data-image-height="964">
-                <p class="u-custom-font u-font-ubuntu u-text u-text-3"> Azuki #5467</p>
-                <p class="u-custom-font u-font-ubuntu u-text u-text-4">
-                  <span class="u-text-grey-40"> Price: <span style="font-weight: 700;" class="u-text-white">$192</span>
-                  </span>
-                </p>
-              </div>
-            </div>
-            <div class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round">
-              <div class="u-container-layout u-similar-container u-container-layout-3">
-                <img class="u-expanded-width u-image u-image-round u-radius-10 u-image-3" src="../../../static/images/Screenshot2023-06-16at11.36.40PM.png" alt="" data-image-width="984" data-image-height="964">
-                <p class="u-custom-font u-font-ubuntu u-text u-text-5"> Azuki #5467</p>
-                <p class="u-custom-font u-font-ubuntu u-text u-text-6">
-                  <span class="u-text-grey-40"> Price: <span style="font-weight: 700;" class="u-text-white">$192</span>
-                  </span>
-                </p>
-              </div>
-            </div>
-            <div class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round">
-              <div class="u-container-layout u-similar-container u-container-layout-4">
-                <img class="u-expanded-width u-image u-image-round u-radius-10 u-image-4" src="../../../static/images/Screenshot2023-06-16at11.36.40PM.png" alt="" data-image-width="984" data-image-height="964">
-                <p class="u-custom-font u-font-ubuntu u-text u-text-7"> Azuki #5467</p>
-                <p class="u-custom-font u-font-ubuntu u-text u-text-8">
-                  <span class="u-text-grey-40"> Price: <span style="font-weight: 700;" class="u-text-white">$192</span>
-                  </span>
-                </p>
-              </div>
-            </div>
+
+
+
           </div>
         </div>
       </div>
@@ -85,13 +60,38 @@
 </template>
 
 <script>
+import Web3 from 'web3';
+
 export default {
   name: 'Collection',
   data() {
     return {
-      collection: []
+      web3: null,
+      collection: {},
+      nfts: [],
+      loading: true
     }
   },
+  async created() {
+    this.loading = false
+    await this.getCollectionData()
+    await this.getNfts()
+  },
+  methods: {
+    async getCollectionData() {
+      this.collection = {'collectionName': 'Azuki', 'desc': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 'floor': '$124', 'volume': '$29355', 'items': '1000'}
+    },
+    async getNfts() {
+      this.nfts.push(
+        {'nftName': 'Azuki#432', 'price': "$292", 'id': '23', 'collectionAddress': '0x20'},
+        {'nftName': 'Azuki#132', 'price': "$292", 'id': '23', 'collectionAddress': '0x20'},
+        {'nftName': 'Azuki#632', 'price': "$292", 'id': '23', 'collectionAddress': '0x20'},
+        {'nftName': 'Azuki#32', 'price': "$292", 'id': '23', 'collectionAddress': '0x20'},
+
+        {'nftName': 'Azuki#32', 'price': "$292", 'id': '23', 'collectionAddress': '0x20'},
+      )
+    },
+  }
 }
 </script>
 
