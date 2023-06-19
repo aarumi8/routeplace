@@ -18,26 +18,26 @@
                 <div class="u-border-1 u-border-grey-80 u-container-layout u-valign-bottom-xl u-container-layout-2">
                   <div class="u-container-style u-group u-group-1">
                     <div class="u-container-layout">
-                      <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-1">Azuki</p>
-                      <p class="u-custom-font u-font-ubuntu u-text u-text-2">Azuki #4756</p>
+                      <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-1">{{nft.collectionName}}</p>
+                      <p class="u-custom-font u-font-ubuntu u-text u-text-2">{{nft.nftName}}</p>
                     </div>
                   </div>
                   <div class="u-container-style u-group u-group-2">
                     <div class="u-container-layout">
                       <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-3">Owner</p>
-                      <p class="u-custom-font u-font-ubuntu u-text u-text-4"> 0x902c201A7632785A367713b694AfB8c5d5691Ab9</p>
+                      <p class="u-custom-font u-font-ubuntu u-text u-text-4"> {{nft.owner}}</p>
                     </div>
                   </div>
                   <div class="u-container-style u-group u-group-3">
                     <div class="u-container-layout">
                       <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-5">Description</p>
-                      <p class="u-custom-font u-font-ubuntu u-text u-text-6"> A community-driven collectibles project featuring art by Burnt Toast. Doodles come in a joyful range of colors, traits and sizes with a collection size of 10,000. Each Doodle allows its owner to vote for experiences and activations paid for by the Doodles Community Treasury.</p>
+                      <p class="u-custom-font u-font-ubuntu u-text u-text-6">{{nft.desc}}</p>
                     </div>
                   </div>
                   <div class="u-container-style u-group u-group-4">
                     <div class="u-container-layout">
                       <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-7">Price</p>
-                      <p class="u-custom-font u-font-ubuntu u-text u-text-8"> $292</p>
+                      <p class="u-custom-font u-font-ubuntu u-text u-text-8">{{nft.price}}</p>
                     </div>
                   </div>
                   <a href="#sec-a757" class="u-border-2 u-border-custom-color-3 u-border-hover-palette-2-light-1 u-btn u-btn-round u-button-style u-custom-font u-dialog-link u-font-ubuntu u-none u-radius-10 u-text-custom-color-3 u-text-hover-palette-2-light-1 u-btn-1">Buy now</a>
@@ -59,18 +59,11 @@
                 <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-3">Rarity</p>
               </div>
             </div>
-            <div class="u-container-style u-expanded-width u-group u-group-3">
+            <div v-for="item in nft['properties']" :key="item.propertyName" class="u-container-style u-expanded-width u-group u-group-3">
               <div class="u-container-layout">
-                <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-4">property name</p>
-                <p class="u-custom-font u-font-ubuntu u-text u-text-white u-text-5">property value</p>
-                <p class="u-custom-font u-font-ubuntu u-text u-text-white u-text-6">10.5% </p>
-              </div>
-            </div>
-            <div class="u-container-style u-expanded-width u-group u-group-4">
-              <div class="u-container-layout">
-                <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-7">property name</p>
-                <p class="u-custom-font u-font-ubuntu u-text u-text-white u-text-8">property value</p>
-                <p class="u-custom-font u-font-ubuntu u-text u-text-white u-text-9">10.5% </p>
+                <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-4">{{item.propertyName}}</p>
+                <p class="u-custom-font u-font-ubuntu u-text u-text-white u-text-5">{{item.propertyValue}}</p>
+                <p class="u-custom-font u-font-ubuntu u-text u-text-white u-text-6">{{item.rarity}} </p>
               </div>
             </div>
           </div>
@@ -88,18 +81,11 @@
                 <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-3">Price</p>
               </div>
             </div>
-            <div class="u-container-style u-expanded-width u-group u-group-3">
+            <div v-for="item in nft['history']" :key="item.address" class="u-container-style u-expanded-width u-group u-group-3">
               <div class="u-container-layout">
-                <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-4">0x026..23</p>
-                <p class="u-custom-font u-font-ubuntu u-text u-text-white u-text-5">15.06.2023</p>
-                <p class="u-custom-font u-font-ubuntu u-text u-text-white u-text-6">$284 </p>
-              </div>
-            </div>
-            <div class="u-container-style u-expanded-width u-group u-group-4">
-              <div class="u-container-layout">
-                <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-7">property name</p>
-                <p class="u-custom-font u-font-ubuntu u-text u-text-white u-text-8">property value</p>
-                <p class="u-custom-font u-font-ubuntu u-text u-text-white u-text-9">10.5% </p>
+                <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-4">{{item.activity + item.address}}</p>
+                <p class="u-custom-font u-font-ubuntu u-text u-text-white u-text-5">{{item.date}}</p>
+                <p class="u-custom-font u-font-ubuntu u-text u-text-white u-text-6">{{item.price}} </p>
               </div>
             </div>
           </div>
@@ -116,7 +102,46 @@ import Web3 from 'web3';
 
 export default {
   name: 'nft',
+  data() {
+    return {
+      nftId: null,
+      collectionAddress: null,
+      nft: {
+        'collectionName': 'loading',
+        'nftName': 'loading',
+        'owner': 'loading',
+        'desc': 'loading',
+        'price': 'loading',
+        'properties': [{'propertyName': 'loading', 'propertyValue': 'loading', 'rarity': 'loading'}],
+        'history': [{'activity': 'loading', 'price': 'loading', 'date': 'loading', 'address': 'loading'}]
+      }
+    }
+  },
+  async created() {
+    const fullUrl = new URL(window.location.href);
+    const pathParts = fullUrl.pathname.split('/').filter(part => part); 
 
+    const address = pathParts[1];
+    const id = pathParts[2];
+
+    this.collectionAdress = address
+    this.nftId = id
+
+    await this.getData()
+  },
+  methods: {
+    async getData() {
+      this.nft = {
+        'collectionName': 'Azuki',
+        'nftName': 'Azuki#45',
+        'owner': '0x902c201A7632785A367713b694AfB8c5d5691Ab9',
+        'desc': 'A community-driven collectibles project featuring art by Burnt Toast. Doodles come in a joyful range of colors, traits and sizes with a collection size of 10,000. Each Doodle allows its owner to vote for experiences and activations paid for by the Doodles Community Treasury.',
+        'price': '$292',
+        'properties': [{'propertyName': 'color', 'propertyValue': 'red', 'rarity': '12%'}, {'propertyName': 'type', 'propertyValue': '12', 'rarity': '13%'}],
+        'history': [{'activity': 'Sell', 'price': '$21', 'date': '19.06.24', 'address': '0x023'}]
+      }
+    }
+  }
 }
 </script>
 
