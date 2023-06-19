@@ -27,13 +27,13 @@
       <div class="u-align-left u-clearfix u-sheet u-sheet-1">
         <div class="u-expanded-width u-list u-list-1">
           <div class="u-repeater u-repeater-1">
-            <div v-for="item in nfts" :key="item.nftName" class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round">
-              <a :href="'/collection/'+ item.collectionAddress + '/' + item.id">
+            <div v-for="item in nfts" :key="item.name" class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round">
+              <a :href="'/collection/'+ item.collectionAddress + '/' + item.token_id">
               <div class="u-container-layout u-similar-container u-container-layout-1">
-                <img class="u-expanded-width u-image u-image-round u-radius-10 u-image-1" src="images/Screenshot2023-06-16at11.36.40PM.png" alt="" data-image-width="984" data-image-height="964">
-                <p class="u-custom-font u-font-ubuntu u-text u-text-1">{{item.nftName}}</p>
+                <img class="u-expanded-width u-image u-image-round u-radius-10 u-image-1" :src="item.token_uri" alt="" data-image-width="984" data-image-height="964">
+                <p class="u-custom-font u-font-ubuntu u-text u-text-1">{{item.name}}</p>
                 <p class="u-custom-font u-font-ubuntu u-text u-text-2">
-                  <span class="u-text-grey-40">Price: <span class="u-text-white" style="font-weight: 700;">{{item.price}}</span>
+                  <span class="u-text-grey-40">Price: <span class="u-text-white" style="font-weight: 700;">No Data</span>
                   </span>
                 </p>
               </div>
@@ -50,6 +50,7 @@
 
 <script>
 import Web3 from 'web3';
+import axios from 'axios';
 
 export default {
   name: 'Profile',
@@ -58,7 +59,8 @@ export default {
       nfts: [],
       address: 'Please, connect your MetaMask',
       loading: true,
-      web3: null
+      web3: null,
+      backendURL: 'http://0.0.0.0:8004/'
     }
   },
   async created() {
@@ -68,14 +70,16 @@ export default {
   },
   methods: {
     async loadNfts() {
-      this.nfts = [
-        {'nftName': 'Azuki#23', 'price': '$191', 'collectionAddress': '0x20', 'id': '23'},
-        {'nftName': 'Azuki#23', 'price': '$391', 'collectionAddress': '0x20', 'id': '23'},
-        {'nftName': 'Azuki#23', 'price': '$591', 'collectionAddress': '0x20', 'id': '23'},
-        {'nftName': 'Azuki#23', 'price': '$91', 'collectionAddress': '0x20', 'id': '23'},
-
-        {'nftName': 'Azuki#23', 'price': '$9691', 'collectionAddress': '0x20', 'id': '23'},
-      ]
+      var jsonBody = {"address": "0x6C53843Ba4dF6E5cbFfe82d95E5762d951DA176e"}
+      var response = await axios.post(this.backendURL + "getTokens", jsonBody)
+      console.log(response.data)
+      this.nfts = response.data
+      for(var i=0; i < this.nfts.length; i++) {
+        var link=this.nfts[i].token_uri
+        var response = await fetch(link)
+        const jsonData = await response.json();
+        this.nfts[i].token_uri=jsonData.image
+      }
       this.loading = false
     },
     async connectWallet() {

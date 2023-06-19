@@ -35,13 +35,13 @@
       <div class="u-align-left u-clearfix u-sheet u-sheet-1">
         <div class="u-expanded-width u-list u-list-1">
           <div class="u-repeater u-repeater-1">
-            <div v-for="item in nfts" :key="item.nftName" class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round">
-              <a :href="'/collection/'+ item.collectionAddress + '/' + item.id">
+            <div v-for="item in nfts" :key="item.name" class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round">
+              <a :href="'/collection/'+ collectionId + '/' + item.token_id">
               <div class="u-container-layout u-similar-container u-container-layout-1">
                 <img class="u-expanded-width u-image u-image-round u-radius-10 u-image-1" src="../../../static/images/Screenshot2023-06-16at11.36.40PM.png" alt="" data-image-width="984" data-image-height="964">
-                <p class="u-custom-font u-font-ubuntu u-text u-text-1">{{item.nftName}}</p>
+                <p class="u-custom-font u-font-ubuntu u-text u-text-1">{{item.name}}</p>
                 <p class="u-custom-font u-font-ubuntu u-text u-text-2">
-                  <span class="u-text-grey-40">Price: <span class="u-text-white" style="font-weight: 700;">{{item.price}}</span>
+                  <span class="u-text-grey-40">Price: <span class="u-text-white" style="font-weight: 700;">{{item.prices[0].price}}</span>
                   </span>
                 </p>
               </div>
@@ -61,35 +61,48 @@
 
 <script>
 import Web3 from 'web3';
-
+import axios from 'axios';
 export default {
   name: 'Collection',
   data() {
     return {
       web3: null,
+      backendURL: 'http://0.0.0.0:8004/',
       collection: {},
       nfts: [],
-      loading: true
+      loading: true,
+      collectionId: ''
     }
   },
   async created() {
+    const fullUrl = new URL(window.location.href);
+    const pathParts = fullUrl.pathname.split('/').filter(part => part); 
+    this.collectionId = pathParts[1];
+
     this.loading = false
     await this.getCollectionData()
     await this.getNfts()
   },
   methods: {
     async getCollectionData() {
+      // var jsonBody = {"collectionUuid": this.collectionId}
+      // var response = await axios.post(this.backendURL + "getListedTokens", jsonBody)
       this.collection = {'collectionName': 'Azuki', 'desc': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.', 'floor': '$124', 'volume': '$29355', 'items': '1000'}
     },
     async getNfts() {
-      this.nfts.push(
-        {'nftName': 'Azuki#432', 'price': "$292", 'id': '23', 'collectionAddress': '0x20'},
-        {'nftName': 'Azuki#132', 'price': "$292", 'id': '23', 'collectionAddress': '0x20'},
-        {'nftName': 'Azuki#632', 'price': "$292", 'id': '23', 'collectionAddress': '0x20'},
-        {'nftName': 'Azuki#32', 'price': "$292", 'id': '23', 'collectionAddress': '0x20'},
+      var jsonBody = {"collectionUuid": this.collectionId}
+      var response = await axios.post(this.backendURL + "getListedTokens", jsonBody)
+      console.log(response.data)
+      this.nfts = response.data
+      // this.nfts.push(
 
-        {'nftName': 'Azuki#32', 'price': "$292", 'id': '23', 'collectionAddress': '0x20'},
-      )
+      //   {'nftName': 'Azuki#432', 'price': "$292", 'id': '23', 'collectionAddress': '0x20'},
+      //   {'nftName': 'Azuki#132', 'price': "$292", 'id': '23', 'collectionAddress': '0x20'},
+      //   {'nftName': 'Azuki#632', 'price': "$292", 'id': '23', 'collectionAddress': '0x20'},
+      //   {'nftName': 'Azuki#32', 'price': "$292", 'id': '23', 'collectionAddress': '0x20'},
+
+      //   {'nftName': 'Azuki#32', 'price': "$292", 'id': '23', 'collectionAddress': '0x20'},
+      // )
     },
   }
 }

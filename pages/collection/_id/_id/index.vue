@@ -18,8 +18,8 @@
                 <div class="u-border-1 u-border-grey-80 u-container-layout u-valign-bottom-xl u-container-layout-2">
                   <div class="u-container-style u-group u-group-1">
                     <div class="u-container-layout">
-                      <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-1">{{nft.collectionName}}</p>
-                      <p class="u-custom-font u-font-ubuntu u-text u-text-2">{{nft.nftName}}</p>
+                      <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-1">{{nft.chain_id}}</p>
+                      <p class="u-custom-font u-font-ubuntu u-text u-text-2">{{nft.name}}</p>
                     </div>
                   </div>
                   <div class="u-container-style u-group u-group-2">
@@ -37,7 +37,7 @@
                   <div class="u-container-style u-group u-group-4">
                     <div class="u-container-layout">
                       <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-7">Price</p>
-                      <p class="u-custom-font u-font-ubuntu u-text u-text-8">{{nft.price}}</p>
+                      <p class="u-custom-font u-font-ubuntu u-text u-text-8">{{price}}</p>
                     </div>
                   </div>
                   <a href="#sec-a757" class="u-border-2 u-border-custom-color-3 u-border-hover-palette-2-light-1 u-btn u-btn-round u-button-style u-custom-font u-dialog-link u-font-ubuntu u-none u-radius-10 u-text-custom-color-3 u-text-hover-palette-2-light-1 u-btn-1">Buy now</a>
@@ -59,11 +59,11 @@
                 <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-3">Rarity</p>
               </div>
             </div>
-            <div v-for="item in nft['properties']" :key="item.propertyName" class="u-container-style u-expanded-width u-group u-group-3">
+            <div v-for="item in nft.properties" :key="item.trait_name" class="u-container-style u-expanded-width u-group u-group-3">
               <div class="u-container-layout">
-                <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-4">{{item.propertyName}}</p>
-                <p class="u-custom-font u-font-ubuntu u-text u-text-white u-text-5">{{item.propertyValue}}</p>
-                <p class="u-custom-font u-font-ubuntu u-text u-text-white u-text-6">{{item.rarity}} </p>
+                <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-4">{{item.trait_type}}</p>
+                <p class="u-custom-font u-font-ubuntu u-text u-text-white u-text-5">{{item.value}}</p>
+                <p class="u-custom-font u-font-ubuntu u-text u-text-white u-text-6">No Data</p>
               </div>
             </div>
           </div>
@@ -81,7 +81,7 @@
                 <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-3">Price</p>
               </div>
             </div>
-            <div v-for="item in nft['history']" :key="item.address" class="u-container-style u-expanded-width u-group u-group-3">
+            <div v-for="item in nft['history']" :key="item" class="u-container-style u-expanded-width u-group u-group-3">
               <div class="u-container-layout">
                 <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-4">{{item.activity + item.address}}</p>
                 <p class="u-custom-font u-font-ubuntu u-text u-text-white u-text-5">{{item.date}}</p>
@@ -99,13 +99,15 @@
 
 <script>
 import Web3 from 'web3';
-
+import axios from 'axios';
 export default {
   name: 'nft',
   data() {
     return {
       nftId: null,
+      price: '',
       collectionAddress: null,
+      backendURL: 'http://0.0.0.0:8004/',
       nft: {
         'collectionName': 'loading',
         'nftName': 'loading',
@@ -121,25 +123,21 @@ export default {
     const fullUrl = new URL(window.location.href);
     const pathParts = fullUrl.pathname.split('/').filter(part => part); 
 
-    const address = pathParts[1];
-    const id = pathParts[2];
+    const collectionId = pathParts[1];
+    const nftId = pathParts[2];
 
-    this.collectionAdress = address
-    this.nftId = id
+    this.collectionId = collectionId
+    this.nftId = nftId
 
     await this.getData()
   },
   methods: {
     async getData() {
-      this.nft = {
-        'collectionName': 'Azuki',
-        'nftName': 'Azuki#45',
-        'owner': '0x902c201A7632785A367713b694AfB8c5d5691Ab9',
-        'desc': 'A community-driven collectibles project featuring art by Burnt Toast. Doodles come in a joyful range of colors, traits and sizes with a collection size of 10,000. Each Doodle allows its owner to vote for experiences and activations paid for by the Doodles Community Treasury.',
-        'price': '$292',
-        'properties': [{'propertyName': 'color', 'propertyValue': 'red', 'rarity': '12%'}, {'propertyName': 'type', 'propertyValue': '12', 'rarity': '13%'}],
-        'history': [{'activity': 'Sell', 'price': '$21', 'date': '19.06.24', 'address': '0x023'}]
-      }
+      var jsonBody = {"collectionUuid": this.collectionId, "tokenId": this.nftId,}
+      var response = await axios.post(this.backendURL + "getTokenDataByTokenId", jsonBody)
+      console.log(response.data)
+      this.nft = response.data      
+      this.price = this.nft.prices[0].price
     }
   }
 }

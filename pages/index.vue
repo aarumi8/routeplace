@@ -25,21 +25,21 @@
         <div id='collectionsRow' class="u-align-left u-clearfix u-sheet u-sheet-1">
           <div class="u-expanded-width u-list u-list-1">
             <div class="u-repeater u-repeater-1">
-                <div v-for="item in collections" :key="item.collectionName" id='item' class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round u-list-item-1">
-                  <a :href="'/collection/'+ item.address">
+                <div v-for="item in collections" :key="item.name" id='item' class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round u-list-item-1">
+                  <a :href="'/collection/'+ item.uuid">
                   <div class="u-container-layout u-similar-container u-valign-bottom u-container-layout-1">
                     <img class="u-expanded-width u-image u-image-round u-radius-10 u-image-1" src="images/Screenshot2023-06-16at5.06.13PM.png" alt="" data-image-width="954" data-image-height="944">
-                    <p class="u-custom-font u-font-ubuntu u-text u-text-1">{{item.collectionName}}</p>
+                    <p class="u-custom-font u-font-ubuntu u-text u-text-1">{{item.name}}</p>
                     <div class="u-container-style u-group u-group-1">
                       <div class="u-container-layout">
                         <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-2">Flo​or</p>
-                        <p class="u-custom-font u-font-ubuntu u-text u-text-3">{{item.Floor}}</p>
+                        <p class="u-custom-font u-font-ubuntu u-text u-text-3">{{item.name}}</p>
                       </div>
                     </div>
                     <div class="u-align-left u-container-style u-group u-group-2">
                       <div class="u-container-layout">
                         <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-4">Volume</p>
-                        <p class="u-custom-font u-font-ubuntu u-text u-text-5">{{item.Volume}}</p>
+                        <p class="u-custom-font u-font-ubuntu u-text u-text-5">{{item.name}}</p>
                       </div> 
                     </div>
                   </div>
@@ -55,6 +55,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'IndexPage',
   data() {
@@ -62,6 +64,7 @@ export default {
       amountOfCollectionsRows: 0,
       collections: [],
       loading: true,
+      backendURL: 'http://0.0.0.0:8004/'
     }
   },
   async created() {
@@ -69,19 +72,20 @@ export default {
   },
   methods: {
     async loadCollections() {
-      //var response = await axios.post("http://3.106.130.141/store_state", jsonBody)
-      this.collections = [
-        {'collectionName': 'BAYC', 'Floor': '$292', 'Volume': '$29,322', 'address': '0x20'},
-        {'collectionName': 'BAYC2', 'Floor': '$22', 'Volume': '$19,322', 'address': '0x20'},
-        {'collectionName': 'BAYC3', 'Floor': '$392', 'Volume': '$29,322', 'address': '0x20'},
+      var response = await axios.post(this.backendURL + "getCollections")
+      this.collections = response.data
+      console.log(this.collections)
+      // this.collections = [
+      //   {'collectionName': 'BAYC', 'Floor': '$292', 'Volume': '$29,322', 'address': '0x20'},
+      //   {'collectionName': 'BAYC2', 'Floor': '$22', 'Volume': '$19,322', 'address': '0x20'},
+      //   {'collectionName': 'BAYC3', 'Floor': '$392', 'Volume': '$29,322', 'address': '0x20'},
 
-        {'collectionName': 'BAYC4', 'Floor': '$092', 'Volume': '$29,322', 'address': '0x20'},
-        {'collectionName': 'BAYC5', 'Floor': '$492', 'Volume': '$2,322', 'address': '0x20'},
-        {'collectionName': 'BAYC5', 'Floor': '$492', 'Volume': '$2,322', 'address': '0x20'},
+      //   {'collectionName': 'BAYC4', 'Floor': '$092', 'Volume': '$29,322', 'address': '0x20'},
+      //   {'collectionName': 'BAYC5', 'Floor': '$492', 'Volume': '$2,322', 'address': '0x20'},
+      //   {'collectionName': 'BAYC5', 'Floor': '$492', 'Volume': '$2,322', 'address': '0x20'},
 
-        {'collectionName': 'BAYC6', 'Floor': '$492', 'Volume': '$2,322', 'address': '0x20'},
-
-      ] 
+      //   {'collectionName': 'BAYC6', 'Floor': '$492', 'Volume': '$2,322', 'address': '0x20'},
+      // ] 
       this.loading = false
     }
   }
