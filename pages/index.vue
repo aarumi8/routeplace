@@ -68,7 +68,11 @@ export default {
     }
   },
   async created() {
-    await this.loadCollections()
+    try {
+      await this.loadCollections()
+    } catch (err) {
+      console.log(err)
+    }
   },
   methods: {
     async loadCollections() {

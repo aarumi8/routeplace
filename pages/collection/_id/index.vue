@@ -75,6 +75,7 @@ export default {
     }
   },
   async created() {
+    try {
     const fullUrl = new URL(window.location.href);
     const pathParts = fullUrl.pathname.split('/').filter(part => part); 
     this.collectionId = pathParts[1];
@@ -82,6 +83,9 @@ export default {
     this.loading = false
     await this.getCollectionData()
     await this.getNfts()
+    } catch (err) {
+      console.log(err)
+    }
   },
   methods: {
     async getCollectionData() {

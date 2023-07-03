@@ -1,121 +1,239 @@
 <template>
-    <div>
+  <div>
     <body class="u-body">
-    <Header />
-    <section class="u-clearfix u-custom-color-7 u-section-1" id="sec-1320">
-      <div class="u-align-left u-clearfix u-sheet u-valign-middle u-sheet-1">
-        <div class="u-border-1 u-border-grey-80 u-container-style u-expanded-width u-group u-radius-10 u-shape-round u-group-1">
-          <div class="u-container-layout u-valign-bottom-lg u-container-layout-1">
-            <img class="u-image u-image-round u-radius-10 u-image-1" src="images/Screenshot2023-06-16at11.36.40PM.png" alt="" data-image-width="984" data-image-height="964">
-            <p class="u-custom-font u-font-ubuntu u-text u-text-1">Profile </p>
-            <div class="u-container-style u-group u-group-2">
-              <div class="u-container-layout">
-                <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-2">Address</p>
-                <p class="u-custom-font u-font-ubuntu u-text u-text-3">{{this.address}}</p>
+      <Header />
+      <section class="u-clearfix u-custom-color-7 u-section-1" id="sec-1320">
+        <div class="u-align-left u-clearfix u-sheet u-valign-middle u-sheet-1">
+          <div
+            class="u-border-1 u-border-grey-80 u-container-style u-expanded-width u-group u-radius-10 u-shape-round u-group-1"
+          >
+            <div
+              class="u-container-layout u-valign-bottom-lg u-container-layout-1"
+            >
+              <img
+                class="u-image u-image-round u-radius-10 u-image-1"
+                src="images/Screenshot2023-06-16at11.36.40PM.png"
+                alt=""
+                data-image-width="984"
+                data-image-height="964"
+              />
+              <p class="u-custom-font u-font-ubuntu u-text u-text-1">Profile</p>
+              <div class="u-container-style u-group u-group-2">
+                <div class="u-container-layout">
+                  <p
+                    class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-2"
+                  >
+                    Address
+                  </p>
+                  <p class="u-custom-font u-font-ubuntu u-text u-text-3">
+                    {{ this.address }}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-    <section class="u-clearfix u-custom-color-7 u-section-2" id="sec-80c2">
-      <div class="u-clearfix u-sheet u-sheet-1">
-        <p class="u-custom-font u-font-ubuntu u-text u-text-1">Your NFTs</p>
-      </div>
-    </section>
-    <section class="u-clearfix u-custom-color-7 u-section-3" id="sec-80ff">
-      <div class="u-align-left u-clearfix u-sheet u-sheet-1">
-        <div class="u-expanded-width u-list u-list-1">
-          <div class="u-repeater u-repeater-1">
-            <div v-for="item in nfts" :key="item.name" class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round">
-              <a :href="'/collection/'+ item.collectionAddress + '/' + item.token_id">
-              <div class="u-container-layout u-similar-container u-container-layout-1">
-                <img class="u-expanded-width u-image u-image-round u-radius-10 u-image-1" :src="item.token_uri" alt="" data-image-width="984" data-image-height="964">
-                <p class="u-custom-font u-font-ubuntu u-text u-text-1">{{item.name}}</p>
-                <p class="u-custom-font u-font-ubuntu u-text u-text-2">
-                  <span class="u-text-grey-40">Price: <span class="u-text-white" style="font-weight: 700;">No Data</span>
-                  </span>
-                </p>
+      </section>
+      <section class="u-clearfix u-custom-color-7 u-section-2" id="sec-80c2">
+        <div class="u-clearfix u-sheet u-sheet-1">
+          <p class="u-custom-font u-font-ubuntu u-text u-text-1">Your NFTs</p>
+        </div>
+      </section>
+      <section class="u-clearfix u-custom-color-7 u-section-3" id="sec-80ff">
+        <div class="u-align-left u-clearfix u-sheet u-sheet-1">
+          <div class="u-expanded-width u-list u-list-1">
+            <div class="u-repeater u-repeater-1">
+              <div
+                v-for="item in nfts"
+                :key="item.name"
+                class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round"
+              >
+                <a
+                  :href="
+                    '/collection/' +
+                    item.collectionAddress +
+                    '/' +
+                    item.token_id
+                  "
+                >
+                  <div
+                    class="u-container-layout u-similar-container u-container-layout-1"
+                  >
+                    <img
+                      class="u-expanded-width u-image u-image-round u-radius-10 u-image-1"
+                      :src="item.image"
+                      alt=""
+                      data-image-width="984"
+                      data-image-height="964"
+                    />
+                    <p class="u-custom-font u-font-ubuntu u-text u-text-1">
+                      {{ item.name }}
+                    </p>
+                    <p class="u-custom-font u-font-ubuntu u-text u-text-2">
+                      <span class="u-text-grey-40"
+                        >Price:
+                        <span class="u-text-white" style="font-weight: 700"
+                          >No Data</span
+                        >
+                      </span>
+                    </p>
+                  </div>
+                </a>
               </div>
-              </a>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-    <Footer />
+      </section>
+      <Footer />
     </body>
-    </div>
+  </div>
 </template>
 
 <script>
-import Web3 from 'web3';
-import axios from 'axios';
+import Web3 from "web3";
+import axios from "axios";
+
+const FujiRPC = "https://avalanche-fuji-c-chain.publicnode.com";
+const MumbaiRPC = "https://rpc-mumbai.maticvigil.com";
+
+const web3F = new Web3(FujiRPC);
+const web3M = new Web3(MumbaiRPC);
+
+const xercABI = require("../abis/xerc.json");
+
+const CID = require("cids");
 
 export default {
-  name: 'Profile',
+  name: "Profile",
   data() {
     return {
       nfts: [],
-      address: 'Please, connect your MetaMask',
+      address: "Please, connect your MetaMask",
       loading: true,
       web3: null,
-      backendURL: 'http://0.0.0.0:8004/'
-    }
+      backendURL: "http://0.0.0.0:8004/",
+    };
   },
   async created() {
-    if( ! await this.connectWallet() ) return
-    this.address = window.ethereum.selectedAddress
-    await this.loadNfts()
+    try {
+      if (!(await this.connectWallet())) return;
+      this.address = window.ethereum.selectedAddress;
+      await this.getNfts();
+      // await this.loadNfts();
+    } catch (err) {
+      console.log(err);
+    }
   },
   methods: {
-    async loadNfts() {
-      var jsonBody = {"address": "0x6C53843Ba4dF6E5cbFfe82d95E5762d951DA176e"}
-      var response = await axios.post(this.backendURL + "getTokens", jsonBody)
-      console.log(response.data)
-      this.nfts = response.data
-      for(var i=0; i < this.nfts.length; i++) {
-        var link=this.nfts[i].token_uri
-        var response = await fetch(link)
-        const jsonData = await response.json();
-        this.nfts[i].token_uri=jsonData.image
+    normalizeURL(theUrl) {
+      let url = theUrl;
+
+      if (theUrl.includes("data:application")) {
+        // pass
+      } else if (theUrl.includes("ipfs://")) {
+        url = theUrl.replace("ipfs://", "https://ipfs.io/ipfs/");
+      } else if (theUrl.includes("Qm") && !theUrl.includes("://")) {
+        url = `https://ipfs.io/ipfs/${theUrl}`;
       }
-      this.loading = false
+
+      return url;
+    },
+    async getNfts() {
+      var response = await axios.post(this.backendURL + "getCollections");
+      this.collections = response.data;
+      console.log(this.collections);
+      var tokens = [];
+      for (let collection of this.collections) {
+        for (let contract of collection.contracts) {
+          let { address, chain_id: chainId } = contract;
+          let contractInstance = null;
+          if (chainId == "80001") {
+            contractInstance = new web3M.eth.Contract(
+              xercABI,
+              web3M.utils.toChecksumAddress(address)
+            );
+          } else if (chainId == "43113") {
+            contractInstance = new web3F.eth.Contract(
+              xercABI,
+              web3M.utils.toChecksumAddress(address)
+            );
+          }
+          let balance = await contractInstance.methods
+            .balanceOf(window.ethereum.selectedAddress)
+            .call();
+          for (var i = 0; i < balance; i++) {
+            let tokenId = await contractInstance.methods
+              .tokenOfOwnerByIndex(window.ethereum.selectedAddress, i)
+              .call();
+            let tokenURI = await contractInstance.methods
+              .tokenURI(tokenId)
+              .call();
+            tokenURI = this.normalizeURL(tokenURI);
+            var response = await fetch(tokenURI);
+            const jsonData = await response.json();
+            this.nfts.push({
+              token_uri: tokenURI,
+              tokenId: tokenId,
+              chainId: chainId,
+              address: address,
+              metadata: jsonData,
+              image: this.normalizeURL(jsonData.image)
+            });
+          }
+        }
+      }
+      console.log(this.nfts);
+    },
+    async loadNfts() {
+      var jsonBody = { address: "0x6C53843Ba4dF6E5cbFfe82d95E5762d951DA176e" };
+      var response = await axios.post(this.backendURL + "getTokens", jsonBody);
+      console.log(response.data);
+      this.nfts = response.data;
+      for (var i = 0; i < this.nfts.length; i++) {
+        var link = this.nfts[i].token_uri;
+        var response = await fetch(link);
+        const jsonData = await response.json();
+        this.nfts[i].token_uri = jsonData.image;
+      }
+      this.loading = false;
     },
     async connectWallet() {
-      if(window.ethereum) {
-          try {
-              // Request account access
-              // We don't know window.web3 version, so we use our own instance of Web3
-              // with the injected provider given by MetaMask
-              await window.ethereum.enable();
-              this.web3 = new Web3(window.ethereum);
-              console.log(window.ethereum.selectedAddress)
-              return true
-          } catch (error) {
-              // User denied account access...
-              console.error("User denied account access")
-              //alert('Error! You denied account access')
-          }
+      if (window.ethereum) {
+        try {
+          // Request account access
+          // We don't know window.web3 version, so we use our own instance of Web3
+          // with the injected provider given by MetaMask
+          await window.ethereum.enable();
+          this.web3 = new Web3(window.ethereum);
+          console.log(window.ethereum.selectedAddress);
+          return true;
+        } catch (error) {
+          // User denied account access...
+          console.error("User denied account access");
+          //alert('Error! You denied account access')
+        }
       }
       // Legacy dapp browsers...
       else if (window.web3) {
-          this.web3 = new Web3(window.web3.currentProvider);
-          // Acccounts always exposed
-          console.log(`Connected with the account: ${window.web3.currentProvider.selectedAddress}`);
-          return true
+        this.web3 = new Web3(window.web3.currentProvider);
+        // Acccounts always exposed
+        console.log(
+          `Connected with the account: ${window.web3.currentProvider.selectedAddress}`
+        );
+        return true;
       }
       // Non-dapp browsers...
       else {
-          console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
-          alert('No wallet detected. Please, install MetaMask')
+        console.log(
+          "Non-Ethereum browser detected. You should consider trying MetaMask!"
+        );
+        alert("No wallet detected. Please, install MetaMask");
       }
 
-      return false
+      return false;
+    },
   },
-
-  }
-}
+};
 </script>
 
 <style scoped>
@@ -315,7 +433,8 @@ export default {
   .u-section-1 .u-text-2 {
     margin-right: 210px;
   }
-}.u-section-2 {
+}
+.u-section-2 {
   background-image: none;
 }
 
@@ -340,7 +459,8 @@ export default {
     margin-right: 0;
     margin-bottom: 20px;
   }
-}.u-section-3 {
+}
+.u-section-3 {
   background-image: none;
 }
 
@@ -355,7 +475,9 @@ export default {
 
 .u-section-3 .u-repeater-1 {
   grid-gap: 26px 26px;
-  grid-template-columns: calc(25% - 19.5px) calc(25% - 19.5px) calc(25% - 19.5px) calc(25% - 19.5px);
+  grid-template-columns:
+    calc(25% - 19.5px) calc(25% - 19.5px) calc(25% - 19.5px)
+    calc(25% - 19.5px);
   min-height: 364px;
 }
 

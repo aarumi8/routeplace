@@ -120,6 +120,7 @@ export default {
     }
   },
   async created() {
+    try {
     const fullUrl = new URL(window.location.href);
     const pathParts = fullUrl.pathname.split('/').filter(part => part); 
 
@@ -130,6 +131,9 @@ export default {
     this.nftId = nftId
 
     await this.getData()
+    } catch (err) {
+      console.log(err)
+    }
   },
   methods: {
     async getData() {
