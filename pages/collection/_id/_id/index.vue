@@ -1,42 +1,42 @@
 <template>
   <div id="container">
-    <div @click="kek" id="kek">
+    <div id="kek">
       <div
-        class="u-align-center u-container-style u-custom-color-7 u-dialog u-radius-10 u-shape-round u-dialog-1"
+        class="u-align-center u-container-style u-custom-color-7 u-dialog u-radius-10 u-shape-round u-dialog-b1"
       >
-        <div class="u-container-layout u-container-layout-1">
+        <div class="u-container-layout u-container-layout-b1">
           <h6
-            class="u-custom-font u-font-ubuntu u-text u-text-default u-text-white u-text-1"
+            class="u-custom-font u-font-ubuntu u-text u-text-default u-text-white u-text-b1"
           >
             Buy nft
           </h6>
           <h5
-            class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-2"
+            class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-b2"
           >
             Select a chain in which you want to buy and receive the NFT
           </h5>
           <a
             @click="selectChainF"
-            class="u-border-2 u-border-custom-color-3 u-border-hover-grey-40 u-btn u-btn-round u-button-style u-none u-radius-10 u-text-custom-color-3 u-text-hover-grey-40 u-btn-1"
+            class="u-border-2 u-border-custom-color-3 u-border-hover-grey-40 u-btn u-btn-round u-button-style u-none u-radius-10 u-text-custom-color-3 u-text-hover-grey-40 u-btn-b1"
             >fuji</a
           >
           <a
             @click="selectChainM"
-            class="u-border-2 u-border-grey-40 u-border-hover-custom-color-3 u-btn u-btn-round u-button-style u-none u-radius-10 u-text-grey-40 u-text-hover-custom-color-3 u-btn-2"
+            class="u-border-2 u-border-grey-40 u-border-hover-custom-color-3 u-btn u-btn-round u-button-style u-none u-radius-10 u-text-grey-40 u-text-hover-custom-color-3 u-btn-b2"
             >mumbai</a
           >
-          <h6 class="u-custom-font u-font-ubuntu u-text u-text-3">
+          <h6 class="u-custom-font u-font-ubuntu u-text u-text-b3">
             Price: $292
           </h6>
           <a
             href="https://nicepage.com/templates"
-            class="u-border-2 u-border-custom-color-3 u-border-hover-palette-2-light-2 u-btn u-btn-round u-button-style u-none u-radius-10 u-text-custom-color-3 u-text-hover-palette-2-light-2 u-btn-3"
+            class="u-border-2 u-border-custom-color-3 u-border-hover-palette-2-light-2 u-btn u-btn-round u-button-style u-none u-radius-10 u-text-custom-color-3 u-text-hover-palette-2-light-2 u-btn-b3"
             >Buy</a
           >
         </div>
         <button
           @click="closeBuy"
-          class="u-dialog-close-button u-icon u-text-grey-50 u-icon-1"
+          class="u-dialog-close-button u-icon u-text-grey-50 u-icon-b1"
         >
           <svg
             class="u-svg-link"
@@ -65,13 +65,13 @@
       </div>
     </div>
 
-    <div @click="kek" id="kek1">
+    <div id="kek1">
       <div
-        class="u-align-center u-container-style u-radius-10 u-custom-color-7 u-dialog u-dialog-1"
+        class="u-align-center u-container-style u-radius-10 u-custom-color-7 u-dialog u-dialog-s1"
       >
-        <div class="u-container-layout u-valign-top u-container-layout-1">
-          <h6 class="u-text u-text-1">List for sale</h6>
-          <div class="u-form u-form-1">
+        <div class="u-container-layout u-valign-top u-container-layout-s1">
+          <h6 class="u-text u-text-s1">List for sale</h6>
+          <div class="u-form u-form-s1">
             <form
               action="#"
               method="POST"
@@ -98,13 +98,13 @@
           </div>
           <a
             href="https://nicepage.com/k/hacker-website-templates"
-            class="u-border-2 u-border-custom-color-3 u-border-hover-palette-2-light-2 u-btn u-btn-round u-button-style u-custom-font u-font-ubuntu u-none u-radius-10 u-text-custom-color-3 u-text-hover-palette-2-light-2 u-btn-2"
+            class="u-border-2 u-border-custom-color-3 u-border-hover-palette-2-light-2 u-btn u-btn-round u-button-style u-custom-font u-font-ubuntu u-none u-radius-10 u-text-custom-color-3 u-text-hover-palette-2-light-2 u-btn-s2"
             >List</a
           >
         </div>
         <button
           @click="close"
-          class="u-dialog-close-button u-icon u-text-grey-50 u-icon-1"
+          class="u-dialog-close-button u-icon u-text-grey-50 u-icon-s1"
         >
           <svg
             class="u-svg-link"
@@ -170,7 +170,7 @@
                           {{ nft.chain_id }}
                         </p>
                         <p class="u-custom-font u-font-ubuntu u-text u-text-2">
-                          {{ nft.name }}
+                          {{ collection.name + " " + nft.token_id }}
                         </p>
                       </div>
                     </div>
@@ -194,7 +194,7 @@
                           Description
                         </p>
                         <p class="u-custom-font u-font-ubuntu u-text u-text-6">
-                          {{ nft.desc }}
+                          {{ collection.desc }}
                         </p>
                       </div>
                     </div>
@@ -211,14 +211,22 @@
                       </div>
                     </div>
                     <a
+                      v-if="state == 'ownerList'"
                       @click="list"
                       class="u-border-2 u-border-custom-color-3 u-border-hover-palette-2-light-1 u-btn u-btn-round u-button-style u-custom-font u-dialog-link u-font-ubuntu u-none u-radius-10 u-text-custom-color-3 u-text-hover-palette-2-light-1 u-btn-1"
                       >List now</a
                     >
                     <a
+                      v-if="state == 'buyer'"
                       @click="buy"
                       class="u-border-2 u-border-custom-color-3 u-border-hover-palette-2-light-1 u-btn u-btn-round u-button-style u-custom-font u-dialog-link u-font-ubuntu u-none u-radius-10 u-text-custom-color-3 u-text-hover-palette-2-light-1 u-btn-1"
                       >Buy now</a
+                    >
+                    <a
+                      v-if="state == 'ownerCancel'"
+                      @click="cancel"
+                      class="u-border-2 u-border-custom-color-3 u-border-hover-palette-2-light-1 u-btn u-btn-round u-button-style u-custom-font u-dialog-link u-font-ubuntu u-none u-radius-10 u-text-custom-color-3 u-text-hover-palette-2-light-1 u-btn-1"
+                      >Cancel</a
                     >
                   </div>
                 </div>
@@ -351,9 +359,13 @@ export default {
   name: "nft",
   data() {
     return {
+      state: "",
       nftId: null,
       price: "",
       chainId: null,
+      collection: {
+        name: "Loading",
+      },
       collectionAddress: null,
       contractAddress: null,
       collections: null,
@@ -396,7 +408,11 @@ export default {
       this.chainId = fullUrl.hash.substring(1);
       await this.loadNft();
       await this.getListing();
-      //await this.getData();
+      console.log(this.state);
+      if (this.state == "buyer") {
+      } else if (this.state == "ownerList") {
+      } else if (this.state == "ownerCancel") {
+      }
     } catch (err) {
       console.log(err);
     }
@@ -431,21 +447,19 @@ export default {
         );
         // const accounts = await web3M.eth.getAccounts();
         // console.log(accounts)
-        var data = 
-          [
-            "80001",
-            data[0].owner,
-            data[0].collection_address,
-            data[0].token_id,
-            data[0].nonce,
-            chainsId,
-            priceOnChains,
-          ]
+        var data = [
+          "80001",
+          data[0].owner,
+          data[0].collection_address,
+          data[0].token_id,
+          data[0].nonce,
+          chainsId,
+          priceOnChains,
+        ];
 
         await contractInstance.methods.buyNft(data, "0x").send({
           from: window.ethereum.selectedAddress,
           value: priceOnChains[0], // Доделать chain id поиск цены
-
         });
       } else {
         contractInstance = new web3F.eth.Contract(
@@ -464,6 +478,7 @@ export default {
       var kek1 = document.querySelector("#kek1");
       kek1.style.zIndex = 0;
     },
+    async cancel() {},
     async buy() {
       var kek = document.querySelector("#kek");
       kek.style.zIndex = 1;
@@ -502,35 +517,45 @@ export default {
         this.backendURL + "getTokenListing",
         jsonBody
       );
-      console.log(response);
-      if (!response.data) return null;
+      console.log(response.data[0]);
+      if (response.data[0].owner.toLowerCase() == window.ethereum.selectedAddress.toLowerCase()) {
+        this.state = "ownerCancel";
+      } else {
+        this.state = "buyer";
+      }
+      if (!response.data) {
+        this.state = "ownerList";
+      }
       return response.data;
       // проверять на овнера
     },
     async loadNft() {
       var response = await axios.post(this.backendURL + "getCollections");
       this.collections = response.data;
-      console.log(this.collections);
       for (let collection of this.collections) {
-        if (collection.uuid == this.collectionId)
-          for (let contract of collection.contracts) {
-            if (this.chainId == contract.chain_id) {
-              this.contractAddress = contract.address;
-              console.log(this.contractAddress);
-              break;
-            }
+        if (collection.uuid == this.collectionId) this.collection = collection;
+        for (let contract of collection.contracts) {
+          if (this.chainId == contract.chain_id) {
+            this.contractAddress = contract.address;
+            break;
           }
+        }
       }
-    },
-    async getData() {
-      var jsonBody = { collectionUuid: this.collectionId, tokenId: this.nftId };
+
+      var jsonBody = { collectionUuid: this.collectionId };
       var response = await axios.post(
-        this.backendURL + "getTokenDataByTokenId",
+        this.backendURL + "getListedTokens",
         jsonBody
       );
-      console.log(response.data);
-      this.nft = response.data;
-      this.price = this.nft.prices[0].price;
+      var nfts = response.data;
+
+      for (var nft of nfts) {
+        if (nft.token_id == this.nftId) {
+          this.nft = nft;
+          this.price = this.nft.prices[0].price;
+          break;
+        }
+      }
     },
   },
 };
@@ -1538,30 +1563,30 @@ export default {
   background: rgba(0, 0, 0, 0.7);
 }
 
-.u-dialog-1 {
+.u-dialog-s1 {
   width: 566px;
   min-height: 431px;
   margin: 60px auto;
 }
 
-.u-container-layout-1 {
+.u-container-layout-s1 {
   padding: 40px 30px;
 }
 
-.u-text-1 {
+.u-text-s1 {
   text-transform: uppercase;
   letter-spacing: 5px;
   width: 254px;
   margin: 0 auto;
 }
 
-.u-form-1 {
+.u-form-s1 {
   height: 124px;
   width: 380px;
   margin: 93px auto 0;
 }
 
-.u-btn-2 {
+.u-btn-s2 {
   border-style: solid;
   text-transform: uppercase;
   letter-spacing: 0px;
@@ -1569,7 +1594,7 @@ export default {
   margin: 65px auto 0;
 }
 
-.u-icon-1 {
+.u-icon-s1 {
   width: 15px;
   height: 15px;
   left: auto;
@@ -1579,17 +1604,17 @@ export default {
 }
 
 @media (max-width: 991px) {
-  .u-container-layout-1 {
+  .u-container-layout-s1 {
     padding-bottom: 30px;
   }
 }
 
 @media (max-width: 767px) {
-  .u-dialog-1 {
+  .u-dialog-s1 {
     width: 540px;
   }
 
-  .u-container-layout-1 {
+  .u-container-layout-s1 {
     padding-top: 30px;
     padding-left: 40px;
     padding-right: 40px;
@@ -1597,24 +1622,24 @@ export default {
 }
 
 @media (max-width: 575px) {
-  .u-dialog-1 {
+  .u-dialog-s1 {
     width: 340px;
     height: auto;
   }
 
-  .u-container-layout-1 {
+  .u-container-layout-s1 {
     padding-top: 40px;
     padding-left: 8px;
     padding-right: 8px;
   }
 
-  .u-form-1 {
+  .u-form-s1 {
     height: 122px;
     width: 307px;
     margin-top: 94px;
   }
 
-  .u-btn-2 {
+  .u-btn-s2 {
     margin-top: 65px;
   }
 }
@@ -1632,28 +1657,28 @@ export default {
   background: rgba(0, 0, 0, 0.7);
 }
 
-.u-dialog-1 {
+.u-dialog-b1 {
   width: 566px;
   min-height: 463px;
   margin-block-start: 15%;
 }
 
-.u-container-layout-1 {
+.u-container-layout-b1 {
   padding: 40px 30px;
 }
 
-.u-text-1 {
+.u-text-b1 {
   text-transform: uppercase;
   letter-spacing: 5px;
   margin: 0 auto;
 }
 
-.u-text-2 {
+.u-text-b2 {
   font-weight: 400;
   margin: 23px 0 0;
 }
 
-.u-btn-1 {
+.u-btn-b1 {
   border-style: solid;
   font-weight: 700;
   text-transform: uppercase;
@@ -1661,7 +1686,7 @@ export default {
   margin: 23px auto 0 110px;
 }
 
-.u-btn-2 {
+.u-btn-b2 {
   border-style: solid;
   font-weight: 700;
   text-transform: uppercase;
@@ -1669,13 +1694,13 @@ export default {
   margin: -49px auto 0 262px;
 }
 
-.u-text-3 {
+.u-text-b3 {
   font-weight: 400;
   width: 227px;
   margin: 127px auto 0;
 }
 
-.u-btn-3 {
+.u-btn-b3 {
   border-style: solid;
   font-weight: 700;
   text-transform: uppercase;
@@ -1683,7 +1708,7 @@ export default {
   margin: 14px auto 0;
 }
 
-.u-icon-1 {
+.u-icon-b1 {
   width: 15px;
   height: 15px;
   left: auto;
@@ -1693,62 +1718,62 @@ export default {
 }
 
 @media (max-width: 1199px) {
-  .u-dialog-1 {
+  .u-dialog-b1 {
     height: auto;
   }
 
-  .u-text-3 {
+  .u-text-b3 {
     width: 227px;
   }
 }
 
 @media (max-width: 991px) {
-  .u-container-layout-1 {
+  .u-container-layout-b1 {
     padding-bottom: 30px;
   }
 }
 
 @media (max-width: 767px) {
-  .u-dialog-1 {
+  .u-dialog-b1 {
     width: 540px;
   }
 
-  .u-container-layout-1 {
+  .u-container-layout-b1 {
     padding-top: 30px;
     padding-left: 40px;
     padding-right: 40px;
   }
 
-  .u-btn-1 {
+  .u-btn-b1 {
     margin-left: 87px;
   }
 
-  .u-btn-2 {
+  .u-btn-b2 {
     margin-left: 239px;
   }
 }
 
 @media (max-width: 575px) {
-  .u-dialog-1 {
+  .u-dialog-b1 {
     width: 340px;
   }
 
-  .u-container-layout-1 {
+  .u-container-layout-b1 {
     padding-top: 40px;
     padding-left: 25px;
     padding-right: 25px;
   }
 
-  .u-btn-1 {
+  .u-btn-b1 {
     margin-left: auto;
   }
 
-  .u-btn-2 {
+  .u-btn-b2 {
     margin-top: 14px;
     margin-left: auto;
   }
 
-  .u-text-3 {
+  .u-text-b3 {
     margin-top: 64px;
   }
 }
