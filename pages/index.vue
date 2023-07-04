@@ -61,7 +61,6 @@ export default {
   name: 'IndexPage',
   data() {
     return {
-      amountOfCollectionsRows: 0,
       collections: [],
       loading: true,
       backendURL: 'http://0.0.0.0:8004/'
@@ -79,17 +78,6 @@ export default {
       var response = await axios.post(this.backendURL + "getCollections")
       this.collections = response.data
       console.log(this.collections)
-      // this.collections = [
-      //   {'collectionName': 'BAYC', 'Floor': '$292', 'Volume': '$29,322', 'address': '0x20'},
-      //   {'collectionName': 'BAYC2', 'Floor': '$22', 'Volume': '$19,322', 'address': '0x20'},
-      //   {'collectionName': 'BAYC3', 'Floor': '$392', 'Volume': '$29,322', 'address': '0x20'},
-
-      //   {'collectionName': 'BAYC4', 'Floor': '$092', 'Volume': '$29,322', 'address': '0x20'},
-      //   {'collectionName': 'BAYC5', 'Floor': '$492', 'Volume': '$2,322', 'address': '0x20'},
-      //   {'collectionName': 'BAYC5', 'Floor': '$492', 'Volume': '$2,322', 'address': '0x20'},
-
-      //   {'collectionName': 'BAYC6', 'Floor': '$492', 'Volume': '$2,322', 'address': '0x20'},
-      // ] 
       this.loading = false
     }
   }

@@ -51,9 +51,11 @@
                 <a
                   :href="
                     '/collection/' +
-                    item.collectionAddress +
+                    item.collectionId +
                     '/' +
-                    item.token_id
+                    item.tokenId +
+                    '#' +
+                    item.chainId
                   "
                 >
                   <div
@@ -101,8 +103,6 @@ const web3M = new Web3(MumbaiRPC);
 
 const xercABI = require("../abis/xerc.json");
 
-const CID = require("cids");
-
 export default {
   name: "Profile",
   data() {
@@ -139,63 +139,59 @@ export default {
       return url;
     },
     async getNfts() {
-      var response = await axios.post(this.backendURL + "getCollections");
-      this.collections = response.data;
-      console.log(this.collections);
-      var tokens = [];
-      for (let collection of this.collections) {
-        for (let contract of collection.contracts) {
-          let { address, chain_id: chainId } = contract;
-          let contractInstance = null;
-          if (chainId == "80001") {
-            contractInstance = new web3M.eth.Contract(
-              xercABI,
-              web3M.utils.toChecksumAddress(address)
-            );
-          } else if (chainId == "43113") {
-            contractInstance = new web3F.eth.Contract(
-              xercABI,
-              web3M.utils.toChecksumAddress(address)
-            );
-          }
-          let balance = await contractInstance.methods
-            .balanceOf(window.ethereum.selectedAddress)
-            .call();
-          for (var i = 0; i < balance; i++) {
-            let tokenId = await contractInstance.methods
-              .tokenOfOwnerByIndex(window.ethereum.selectedAddress, i)
+      try {
+        var response = await axios.post(this.backendURL + "getCollections");
+        this.collections = response.data;
+
+        for (let collection of this.collections) {
+          var uuid = collection.uuid;
+          for (let contract of collection.contracts) {
+            let { address, chain_id: chainId } = contract;
+            let contractInstance = null;
+
+            if (chainId == "80001") {
+              contractInstance = new web3M.eth.Contract(
+                xercABI,
+                web3M.utils.toChecksumAddress(address)
+              );
+            } else if (chainId == "43113") {
+              contractInstance = new web3F.eth.Contract(
+                xercABI,
+                web3F.utils.toChecksumAddress(address)
+              );
+            }
+
+            let balance = await contractInstance.methods
+              .balanceOf(window.ethereum.selectedAddress)
               .call();
-            let tokenURI = await contractInstance.methods
-              .tokenURI(tokenId)
-              .call();
-            tokenURI = this.normalizeURL(tokenURI);
-            var response = await fetch(tokenURI);
-            const jsonData = await response.json();
-            this.nfts.push({
-              token_uri: tokenURI,
-              tokenId: tokenId,
-              chainId: chainId,
-              address: address,
-              metadata: jsonData,
-              image: this.normalizeURL(jsonData.image)
-            });
+
+            for (var i = 0; i < balance; i++) {
+              let tokenId = await contractInstance.methods
+                .tokenOfOwnerByIndex(window.ethereum.selectedAddress, i)
+                .call();
+              let tokenURI = await contractInstance.methods
+                .tokenURI(tokenId)
+                .call();
+
+              tokenURI = this.normalizeURL(tokenURI);
+
+              var response = await fetch(tokenURI);
+              const jsonData = await response.json();
+              this.nfts.push({
+                token_uri: tokenURI,
+                tokenId: tokenId,
+                chainId: chainId,
+                address: address,
+                metadata: jsonData,
+                collectionId: uuid,
+                image: this.normalizeURL(jsonData.image),
+              });
+            }
           }
         }
+      } catch (err) {
+        console.log(err);
       }
-      console.log(this.nfts);
-    },
-    async loadNfts() {
-      var jsonBody = { address: "0x6C53843Ba4dF6E5cbFfe82d95E5762d951DA176e" };
-      var response = await axios.post(this.backendURL + "getTokens", jsonBody);
-      console.log(response.data);
-      this.nfts = response.data;
-      for (var i = 0; i < this.nfts.length; i++) {
-        var link = this.nfts[i].token_uri;
-        var response = await fetch(link);
-        const jsonData = await response.json();
-        this.nfts[i].token_uri = jsonData.image;
-      }
-      this.loading = false;
     },
     async connectWallet() {
       if (window.ethereum) {
