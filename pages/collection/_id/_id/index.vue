@@ -149,7 +149,7 @@
                   <div class="u-container-layout u-container-layout-1">
                     <img
                       class="u-expanded-width-lg u-expanded-width-sm u-expanded-width-xs u-image u-image-round u-radius-10 u-image-1"
-                      src="../../../../static/images/Screenshot2023-06-16at11.36.40PM.png"
+                      :src="image"
                       alt=""
                       data-image-width="984"
                       data-image-height="964"
@@ -355,6 +355,8 @@ var web3M = new Web3(MumbaiRPC);
 
 const marketABI = require("../../../../abis/market.json");
 
+const xercABI = require("../../../../abis/xerc.json");
+
 export default {
   name: "nft",
   data() {
@@ -362,6 +364,7 @@ export default {
       state: "",
       nftId: null,
       price: "",
+      image: "../../../../static/images/Screenshot2023-06-16at11.36.40PM.png",
       chainId: null,
       collection: {
         name: "Loading",
@@ -369,7 +372,7 @@ export default {
       collectionAddress: null,
       contractAddress: null,
       collections: null,
-      backendURL: "http://0.0.0.0:8004/",
+      backendURL: "https://route-nft-server900.ru/",
       nft: {
         collectionName: "loading",
         nftName: "loading",
@@ -468,6 +471,21 @@ export default {
             "0xA6D2D477a6d5342315b75C9112e5eeefc8973171"
           )
         );
+
+        var data = [
+          "41143",
+          data[0].owner,
+          data[0].collection_address,
+          data[0].token_id,
+          data[0].nonce,
+          chainsId,
+          priceOnChains,
+        ];
+
+        await contractInstance.methods.buyNft(data, "0x").send({
+          from: window.ethereum.selectedAddress,
+          value: priceOnChains[1], // Доделать chain id поиск цены
+        });
       }
     },
     closeBuy() {
@@ -490,9 +508,11 @@ export default {
       var jsonBody = {
         chain_id: this.chainId,
         collection_address: this.contractAddress,
-        token_id: this.nftId,
-        signature: "0x",
         owner: window.ethereum.selectedAddress,
+        token_id: this.nftId,
+        // signature: "0x",
+        pricesOnChains: ["0xaaaa", "0xbbbb"],
+        chainsId: ["80001", "43113"],
         prices: [
           {
             chain_id: "80001",
@@ -505,6 +525,51 @@ export default {
         ],
       };
 
+      var nonceBody = {
+        chain_id: this.chainId,
+        collection_address: this.contractAddress,
+        token_id: this.nftId,
+      };
+      console.log(typeof this.nftId);
+      var nonce = await axios.post(this.backendURL + "getNextNonce", nonceBody);
+      console.log(nonce.data);
+
+      var data = [
+        this.chainId,
+        this.contractAddress,
+        window.ethereum.selectedAddress,
+        this.nftId,
+        nonce.data,
+        // signature: "0x",
+        ["80001", "43113"],
+        ["0xaaaa", "0xbbbb"],
+      ];
+
+      console.log("data: ", data);
+      var web3 = new Web3(window.ethereum);
+      //const msg = web3M.utils.sha3(JSON.stringify(data));
+      const msg = web3.eth.abi.encodeParameters(
+        [
+          "string",
+          "address",
+          "address",
+          "uint256",
+          "uint256",
+          "string[]",
+          "uint256[]",
+        ],
+        data
+      );
+      console.log("msg: ", msg);
+      const hash = web3.utils.keccak256(msg);
+      console.log("hash: ", hash);
+      const sig = await web3.eth.personal.sign(
+        hash,
+        window.ethereum.selectedAddress
+      );
+
+      jsonBody.signature = sig;
+      jsonBody.nonce = nonce.data;
       var response = await axios.post(this.backendURL + "listing", jsonBody);
       console.log(response);
     },
@@ -518,7 +583,26 @@ export default {
         jsonBody
       );
       console.log(response.data[0]);
-      if (response.data[0].owner.toLowerCase() == window.ethereum.selectedAddress.toLowerCase()) {
+      if (!response.data[0]) {
+        this.state = "ownerList";
+        return;
+      }
+
+      if (
+        !(await this.checkForOwner(
+          response.data[0].owner,
+          response.data[0].collection_address,
+          response.data[0].chain_id
+        ))
+      ) {
+        window.location.href = "/collection/" + this.collectionId;
+        return;
+      }
+
+      if (
+        response.data[0].owner.toLowerCase() ==
+        window.ethereum.selectedAddress.toLowerCase()
+      ) {
         this.state = "ownerCancel";
       } else {
         this.state = "buyer";
@@ -527,7 +611,47 @@ export default {
         this.state = "ownerList";
       }
       return response.data;
-      // проверять на овнера
+    },
+    async checkForOwner(owner, address, chainId) {
+      var contractInstance = null;
+
+      if (chainId == "80001") {
+        contractInstance = new web3M.eth.Contract(
+          xercABI,
+          web3M.utils.toChecksumAddress(address)
+        );
+      } else if (chainId == "43113") {
+        contractInstance = new web3F.eth.Contract(
+          xercABI,
+          web3F.utils.toChecksumAddress(address)
+        );
+      }
+
+      let balance = await contractInstance.methods.balanceOf(owner).call();
+
+      let tokenURI = await contractInstance.methods.tokenURI(this.nftId).call();
+
+      tokenURI = this.normalizeURL(tokenURI);
+      var response = await fetch(tokenURI);
+      const jsonData = await response.json();
+      this.image = this.normalizeURL(jsonData.image);
+
+      if (balance == 0) return false;
+
+      return true;
+    },
+    normalizeURL(theUrl) {
+      let url = theUrl;
+
+      if (theUrl.includes("data:application")) {
+        // pass
+      } else if (theUrl.includes("ipfs://")) {
+        url = theUrl.replace("ipfs://", "https://ipfs.io/ipfs/");
+      } else if (theUrl.includes("Qm") && !theUrl.includes("://")) {
+        url = `https://ipfs.io/ipfs/${theUrl}`;
+      }
+
+      return url;
     },
     async loadNft() {
       var response = await axios.post(this.backendURL + "getCollections");
@@ -548,6 +672,7 @@ export default {
         jsonBody
       );
       var nfts = response.data;
+      if (!response.data) return;
 
       for (var nft of nfts) {
         if (nft.token_id == this.nftId) {

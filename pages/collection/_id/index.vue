@@ -10,7 +10,7 @@
             <div class="u-container-layout u-container-layout-1">
               <img
                 class="u-image u-image-round u-radius-10 u-image-1"
-                src="../../../static/images/Screenshot2023-06-16at11.36.40PM.png"
+                src="../../../static/images/Screenshot2023-06-16at5.06.13PM.png"
                 alt=""
                 data-image-width="984"
                 data-image-height="964"
@@ -31,7 +31,7 @@
                     Flo​or
                   </p>
                   <p class="u-custom-font u-font-ubuntu u-text u-text-4">
-                    {{ collection.floor }}
+                    $0.0005
                   </p>
                 </div>
               </div>
@@ -42,9 +42,7 @@
                   >
                     Volume
                   </p>
-                  <p class="u-custom-font u-font-ubuntu u-text u-text-6">
-                    {{ collection.volume }}
-                  </p>
+                  <p class="u-custom-font u-font-ubuntu u-text u-text-6">$0</p>
                 </div>
               </div>
               <div class="u-container-style u-group u-group-4">
@@ -54,9 +52,7 @@
                   >
                     Items
                   </p>
-                  <p class="u-custom-font u-font-ubuntu u-text u-text-8">
-                    {{ collection.items }}
-                  </p>
+                  <p class="u-custom-font u-font-ubuntu u-text u-text-8">3</p>
                 </div>
               </div>
             </div>
@@ -66,20 +62,28 @@
       <section class="u-clearfix u-custom-color-7 u-section-2" id="sec-b060">
         <div class="u-align-left u-clearfix u-sheet u-sheet-1">
           <div class="u-expanded-width u-list u-list-1">
-            <div class="u-repeater u-repeater-1">
+            <div v-if='loaded' class="u-repeater u-repeater-1">
               <div
                 v-for="item in nfts"
                 :key="item.name"
                 class="u-border-1 u-border-grey-80 u-container-style u-list-item u-radius-10 u-repeater-item u-shape-round"
               >
-                <a :href="'/collection/' + collectionId + '/' + item.token_id + '#' + item.chain_id ">
+                <a
+                  :href="
+                    '/collection/' +
+                    collectionId +
+                    '/' +
+                    item.token_id +
+                    '#' +
+                    item.chain_id
+                  "
+                >
                   <div
                     class="u-container-layout u-similar-container u-container-layout-1"
                   >
                     <img
                       class="u-expanded-width u-image u-image-round u-radius-10 u-image-1"
-                      src="../../../static/images/Screenshot2023-06-16at11.36.40PM.png"
-                      alt=""
+                      :src="item.image"
                       data-image-width="984"
                       data-image-height="964"
                     />
@@ -109,12 +113,20 @@
 <script>
 import Web3 from "web3";
 import axios from "axios";
+const MumbaiRPC = "https://rpc-mumbai.maticvigil.com";
+var web3M = new Web3(MumbaiRPC);
+
+const marketABI = require("../../../abis/market.json");
+
+const xercABI = require("../../../abis/xerc.json");
+
 export default {
   name: "Collection",
   data() {
     return {
+      loaded: false,
       web3: null,
-      backendURL: "http://0.0.0.0:8004/",
+      backendURL: "https://route-nft-server900.ru/",
       collection: {},
       nfts: [],
       loading: true,
@@ -128,7 +140,7 @@ export default {
       this.collectionId = pathParts[1];
 
       await this.getCollectionData();
-      await this.getNfts()
+      await this.getNfts();
     } catch (err) {
       console.log(err);
     }
@@ -153,6 +165,36 @@ export default {
       );
       console.log(response.data);
       this.nfts = response.data;
+      var contractInstance = new web3M.eth.Contract(
+        xercABI,
+        web3M.utils.toChecksumAddress(this.nfts[0].collection_address)
+      );
+      
+      for (let i = 0; i < 3; i++) {
+        let tokenURI = await contractInstance.methods
+          .tokenURI(this.nfts[i].token_id)
+          .call();
+
+        tokenURI = this.normalizeURL(tokenURI);
+        var response = await fetch(tokenURI);
+        const jsonData = await response.json();
+        this.nfts[i].image = this.normalizeURL(jsonData.image);
+      }
+      console.log("nfts: ", this.nfts);
+      this.loaded=true
+    },
+    normalizeURL(theUrl) {
+      let url = theUrl;
+
+      if (theUrl.includes("data:application")) {
+        // pass
+      } else if (theUrl.includes("ipfs://")) {
+        url = theUrl.replace("ipfs://", "https://ipfs.io/ipfs/");
+      } else if (theUrl.includes("Qm") && !theUrl.includes("://")) {
+        url = `https://ipfs.io/ipfs/${theUrl}`;
+      }
+
+      return url;
     },
   },
 };
@@ -503,9 +545,9 @@ export default {
 
 .u-section-2 .u-repeater-1 {
   grid-gap: 26px 26px;
-  grid-template-columns: calc(25% - 19.5px) calc(25% - 19.5px) calc(
-      25% - 19.5px
-    ) calc(25% - 19.5px);
+  grid-template-columns:
+    calc(25% - 19.5px) calc(25% - 19.5px) calc(25% - 19.5px)
+    calc(25% - 19.5px);
   min-height: 364px;
 }
 

@@ -111,7 +111,7 @@ export default {
       address: "Please, connect your MetaMask",
       loading: true,
       web3: null,
-      backendURL: "http://0.0.0.0:8004/",
+      backendURL: "https://route-nft-server900.ru/",
     };
   },
   async created() {
@@ -145,6 +145,7 @@ export default {
 
         for (let collection of this.collections) {
           var uuid = collection.uuid;
+          console.log(collection)
           for (let contract of collection.contracts) {
             let { address, chain_id: chainId } = contract;
             let contractInstance = null;
@@ -189,6 +190,7 @@ export default {
             }
           }
         }
+        console.log(this.nfts)
       } catch (err) {
         console.log(err);
       }

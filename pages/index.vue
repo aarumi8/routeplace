@@ -33,13 +33,13 @@
                     <div class="u-container-style u-group u-group-1">
                       <div class="u-container-layout">
                         <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-2">Flo​or</p>
-                        <p class="u-custom-font u-font-ubuntu u-text u-text-3">{{item.name}}</p>
+                        <p class="u-custom-font u-font-ubuntu u-text u-text-3">$0.0005</p>
                       </div>
                     </div>
                     <div class="u-align-left u-container-style u-group u-group-2">
                       <div class="u-container-layout">
                         <p class="u-custom-font u-font-ubuntu u-text u-text-grey-40 u-text-4">Volume</p>
-                        <p class="u-custom-font u-font-ubuntu u-text u-text-5">{{item.name}}</p>
+                        <p class="u-custom-font u-font-ubuntu u-text u-text-5">$0</p>
                       </div> 
                     </div>
                   </div>
@@ -63,7 +63,7 @@ export default {
     return {
       collections: [],
       loading: true,
-      backendURL: 'http://0.0.0.0:8004/'
+      backendURL: 'https://route-nft-server900.ru/'
     }
   },
   async created() {
